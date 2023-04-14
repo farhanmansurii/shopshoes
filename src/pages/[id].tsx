@@ -16,8 +16,14 @@ export default function Details() {
       enabled: !!router.query.id
     }
   );
+  if (isLoading) {
 
+    return (
+      <div className='pt-[6rem]'>Loading</div>
+    )
+  }
+  console.log(listing)
   return (
-    <div className='pt-[6rem]'>{JSON.stringify(listing)}</div>
+    <div className='pt-[6rem]'>{listing?.name}</div>
   )
 }
