@@ -21,7 +21,7 @@ export const listingsRouter = createTRPCRouter({
     })
   }),
   create: protectedProcedure.input(
-    z.object({ name: z.string(), description: z.string(), price: z.number() })
+    z.object({ name: z.string(), description: z.string(), price: z.number(), image: z.string() })
   ).mutation(async ({ input, ctx }) => {
     if (!ctx.prisma || !ctx.prisma.listing) {
       throw new Error('Prisma context not initialized correctly');

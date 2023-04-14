@@ -17,5 +17,6 @@ model Listing {
     name        String
     description String
     price       Float
+    image       String
     userId      String
 }
