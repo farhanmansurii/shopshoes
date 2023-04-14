@@ -16,11 +16,11 @@ type ImagePreviewProps = {
 }
 
 const ImagePreview = ({ image }: ImagePreviewProps) => {
-  return image ? <img src={image} alt="Preview" /> : null;
+  return image ? <img className='w-32' src={image} alt="Preview" /> : null;
 };
 
 export default function Sell() {
-  const { register, handleSubmit } = useForm<Inputs>();
+  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
   const [image, setImage] = useState<string | undefined>(undefined);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +43,6 @@ export default function Sell() {
       .then((resp) => resp.json())
       .then((data: { url?: string }) => {
         const imageUrl = data?.url;
-        console.log(imageUrl);
         setImage(imageUrl)
       })
       .catch((err: Error) => console.log(err));
@@ -63,17 +62,20 @@ export default function Sell() {
   };
 
   const hello = api.listings.create.useMutation();
+  const isFormValid = Object.keys(errors).length === 0;
 
   return (
-    <div className='pt-[6rem] flex items-center justify-center min-h-screen'>
-      <form className='flex flex-col w-7/12 gap-5' onSubmit={handleSubmit(onSubmit)}>
-        <Input {...register('name', { required: true })} label="Item Name" placeholder='Give the Items Name' />
-        <Textarea {...register('description', { required: true })} label="Item Description" placeholder='Give the Items Description' />
-        <Input {...register('price', { required: true })} label="Item Price" placeholder='Give the Items Price' type='number' />
-        <label htmlFor="image">Image</label>
-        <input type="file" id="image" onChange={handleImageChange} />
+    <div className='pt-[6rem] flex items-center flex-col justify-center min-h-screen'>
+      <div className='text-2xl font-semibold my-3'>Sell Any Product</div>
+      <form className='flex flex-col lg:w-7/12 w-10/12 gap-5 mb-10' onSubmit={handleSubmit(onSubmit)}>
+        <Input {...register('name', { required: true })} label='Item Name' placeholder='Give the Items Name' />
+        <Textarea {...register('description', { required: true })} label='Item Description' placeholder='Give the Items Description' />
+        <Input {...register('price', { required: true })} label='Item Price' placeholder='Give the Items Price' type='number' />
+        <label htmlFor='image'>Image</label>
+        <input type='file' id='image' onChange={handleImageChange} />
         <ImagePreview image={image} />
-        <Button type='submit' >Submit</Button>
+
+        <Button shadow color={'error'} type='submit' disabled={!isFormValid || !image}>Submit</Button>
       </form>
     </div>
   );
