@@ -33,7 +33,7 @@ export default function Sell() {
 
     const data = new FormData();
     data.append('file', file);
-    data.append('upload_preset', 'medtsm1p');
+    data.append('upload_preset', 'ibwh28zw');
     data.append('cloud_name', 'ecommerceupload');
 
     fetch('https://api.cloudinary.com/v1_1/ecommerceupload/image/upload', {

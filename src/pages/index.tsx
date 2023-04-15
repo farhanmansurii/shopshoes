@@ -1,5 +1,5 @@
 import { SignIn, SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
-import { Button } from "@nextui-org/react";
+import { Button, Loading } from "@nextui-org/react";
 import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
@@ -7,7 +7,8 @@ import HomeNavbar from "~/components/Navbar";
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
-  const listings = api.listings.list.useQuery();
+  const { data: listings, isLoading } = api.listings.list.useQuery();
+  console.log(listings)
   type Inputs = {
     id: string
     name: string;
@@ -15,6 +16,12 @@ const Home: NextPage = () => {
     price: number;
     image: string
   };
+  if (isLoading) {
+
+    return (
+      <div className='pt-[6rem] flex min-h-screen items-center justify-center'><Loading /></div>
+    )
+  }
   return (
     <>
       <Head>
@@ -26,7 +33,7 @@ const Home: NextPage = () => {
       <main className="flex min-h-screen pt-[6rem]  ">
         <div className="flex flex-wrap w-11/12 mx-auto items-center justify-center gap-4">
           {
-            listings?.data?.map((e: Inputs) =>
+            listings?.map((e: Inputs) =>
               <Link key={e.id} href={`/${e.id}`}>
                 <div key={e.id} className=" gap-2 flex items-center justify-center flex-col p-2 w-fit border rounded-md">
                   <img src={e.image} className="rounded w-48 aspect-square" />
