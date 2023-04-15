@@ -38,7 +38,7 @@ const Home: NextPage = () => {
                 <div key={e.id} className=" gap-2 flex items-center justify-center flex-col p-2 w-fit border rounded-md">
                   <img src={e.image} className="rounded w-48 aspect-square" />
                   <div>{e.name}</div>
-                  <Button size={'sm'} shadow className="w-fit mb-2">${e.price}</Button>
+                  <Button size={'sm'} flat className="w-fit mb-2">${e.price}</Button>
                 </div>
               </Link>
             )
