@@ -1,3 +1,4 @@
+import { Button, Loading } from '@nextui-org/react';
 import { type Listing } from '@prisma/client';
 import { type ApiError } from 'next/dist/server/api-utils';
 import Link from 'next/link';
@@ -20,27 +21,27 @@ export default function Details() {
   if (isLoading) {
 
     return (
-      <div className='pt-[6rem]'>Loading</div>
+      <div className='pt-[6rem] flex min-h-screen items-center justify-center'><Loading /></div>
     )
   }
-  console.log(listing)
+
   return (
-    <div className="container py-8 mx-auto">
+    <div className="container py-8 pt-[6rem] mx-auto">
+      <Link href="/">
+        <Button className="text-lg font-bold">Back to listings</Button>
+      </Link>
       <div className="max-w-lg mx-auto">
         <img
           src={listing?.image}
           alt={listing?.name}
-          width={400}
-          height={400}
+          className='w-10/12 mx-auto'
         />
       </div>
       <div className="mt-8">
         <h1 className="text-4xl font-bold mb-4">{listing?.name}</h1>
         <p className="text-2xl font-bold mb-4">${listing?.price}</p>
         <p className="text-lg mb-8">{listing?.description}</p>
-        <Link href="/">
-          <div className="text-lg font-bold">Back to listings</div>
-        </Link>
+        <Button flat>Add to Cart</Button>
       </div>
     </div>
   )
