@@ -12,7 +12,17 @@ export default function HomeNavbar() {
           <div className='font-semibold'>Sell<span className='text-blue-500'>Yo</span>Shoes</div>
         </Link>
         <div className='flex items-center  lg:hidden font-semibold gap-5'>
-          <Dropdown>
+          <button>
+
+            {user.isSignedIn ? (
+              <UserButton />
+            ) : (
+              <SignInButton>
+                <div>Login</div>
+              </SignInButton>
+            )}
+          </button>
+          <Dropdown >
             <Dropdown.Trigger>
               <button className='rounded-full hover:bg-blue-100 w-12 h-12 items-center flex justify-center'>
 
@@ -53,16 +63,7 @@ export default function HomeNavbar() {
 
             </Dropdown.Menu>
           </Dropdown>
-          <button>
 
-            {user.isSignedIn ? (
-              <UserButton />
-            ) : (
-              <SignInButton>
-                <div>Login</div>
-              </SignInButton>
-            )}
-          </button>
 
         </div>
         <div className='gap-5 font-semibold hidden lg:flex'>
