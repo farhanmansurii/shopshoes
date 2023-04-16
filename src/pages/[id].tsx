@@ -64,7 +64,7 @@ export default function Details() {
           <h1 className="text-4xl capitalize font-medium mb-2">{listing?.name}</h1>
           <p className="text-gray-500 text-sm capitalize ">{listing?.description}</p>
           <div className="flex items-center">
-            <span className="text-lg font-medium mr-2"> ₹ {Number(listing?.price) * 1.1 + 150}</span>
+            <span className="text-lg font-medium mr-2"> ₹ {Number(listing?.price) + 150}</span>
             <span className="text-gray-500 text-xs">(Shipping + Tax included )</span>
           </div>
           <div className="flex items-center mb-4">
@@ -74,7 +74,7 @@ export default function Details() {
           </div>
           <div className="flex items-center mb-8">
             <span className="text-gray-500 text-sm mr-2">Condition:</span>
-            <span className={`text-sm bg-green-100 px-3 py-1 capitalize rounded-xl font-medium ${listing?.condition === 'new' ? 'text-green-500' : 'text-yellow-500'}`}>
+            <span className={`text-sm bg-green-100 px-3 py-1 capitalize rounded-xl font-medium text-green-500`}>
               {listing?.condition}
             </span>
           </div>
