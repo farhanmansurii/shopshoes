@@ -1,12 +1,11 @@
-import { Divider } from '@nextui-org/react';
 import React from 'react';
 
 export default function Footer() {
   return (
     <div className="bg-gray-100">
-      <div className="container mx-auto py-6 px-4">
+      <div className=" flex gap-3 flex-col md:flex-row items-center justify-between container mx-auto py-6 px-4">
         <div className="flex flex-wrap justify-between items-center">
-          <div className="flex gap-10 items-center">
+          <div className="flex gap-5 items-center">
             <svg
               fill="currentColor"
               viewBox="0 0 16 16"
@@ -31,9 +30,10 @@ export default function Footer() {
             </svg>
           </div>
 
-          <div className="text-gray-500 text-sm">
-            &copy; 2023 SellYoShoes. All rights reserved.
-          </div>
+
+        </div>
+        <div className="text-gray-500 text-sm">
+          &copy; 2023 SellYoShoes. All rights reserved.
         </div>
       </div>
     </div>

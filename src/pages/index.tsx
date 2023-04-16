@@ -31,7 +31,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="mx-auto max-w-screen-xl px-4 sm:px-6 py-[6rem] lg:px-8">
+      <div className="mx-auto max-w-screen-xl min-h-screen px-4 sm:px-6 pt-[6rem] lg:px-8">
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {listings?.map((product: Inputs) => (
             <Link key={product.id} href={`/${product?.id}`} className="flex flex-col border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transform transition duration-200 hover:scale-105">

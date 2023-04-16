@@ -116,7 +116,7 @@ export default function Sell() {
     return (
 
 
-      <div className='flex flex-col gap-5 min-h-screen justify-center items-center text-4xl'>Sign In to Sell Your Shoes
+      <div className='flex flex-col w-10/12 mx-auto gap-5 min-h-screen justify-center items-center text-4xl'>Sign In to Sell Your Shoes
         <SignInButton >
           <Button flat>
             Sign In
@@ -150,7 +150,7 @@ export default function Sell() {
       </form>
 
       <div>
-      </div>
+      </div>{listings && listings?.length > 0 &&
       <table className="min-w-full divide-y divide-gray-200">
         <thead>
           <tr>
@@ -183,7 +183,7 @@ export default function Sell() {
           }
 
         </tbody>
-      </table>
+        </table>}
     </div>
   );
 }
