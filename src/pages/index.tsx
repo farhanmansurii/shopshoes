@@ -43,7 +43,7 @@ const Home: NextPage = () => {
                 <div className="flex gap-2">
 
                   <p className="text-gray-500 font-medium mb-2 ">₹{product.price}</p>
-                  <p className={`text-xs mb-2 w-fit bg-green-100 px-3 py-1 capitalize rounded-xl font-medium ${product?.condition === 'new' ? 'text-green-500' : 'text-yellow-500'}`}>
+                  <p className={`text-xs mb-2 w-fit bg-green-100 px-3 py-1 capitalize rounded-xl font-medium text-green-500`}>
                     {product?.condition}
                   </p> </div>
                 </div>
