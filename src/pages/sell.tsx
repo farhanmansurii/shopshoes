@@ -162,7 +162,7 @@ export default function Sell() {
           {listings?.map((e: Inputs) =>
 
             <tr key={e.id} className="hover:bg-gray-50">
-              <td className="px-6 py-4 whitespace-nowrap">{e.name}</td>
+              <td className="px-6 py-4 whitespace-pre-wrap">{e.name}</td>
               <td className="px-6 py-4 whitespace-nowrap"><img src={e.image || ''} alt="{{name}}" className="h-16 w-16 object-contain rounded-full" /></td>
               <td className="px-6 py-4 whitespace-nowrap">
 
