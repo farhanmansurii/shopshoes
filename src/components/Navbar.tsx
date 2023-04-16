@@ -14,32 +14,40 @@ export default function HomeNavbar() {
         <div className='flex items-center  lg:hidden font-semibold gap-5'>
           <Dropdown>
             <Dropdown.Trigger>
-              <svg fill="none" viewBox="0 0 15 15" height="1em" width="1em" >
+              <button className='rounded-full hover:bg-blue-100 w-12 h-12 items-center flex justify-center'>
+
+                <svg fill="none" viewBox="0 0 15 15" height="1.2em" width="1.2em" >
                 <path
                   fill="currentColor"
                   fillRule="evenodd"
                   d="M1.5 3a.5.5 0 000 1h12a.5.5 0 000-1h-12zM1 7.5a.5.5 0 01.5-.5h12a.5.5 0 010 1h-12a.5.5 0 01-.5-.5zm0 4a.5.5 0 01.5-.5h12a.5.5 0 010 1h-12a.5.5 0 01-.5-.5z"
                   clipRule="evenodd"
-                />
+                  />
               </svg>
+              </button>
             </Dropdown.Trigger>
             <Dropdown.Menu aria-label="Static Actions">
               <Dropdown.Item key="new">
                 <Link href='/'>
+                  <div className='w-full ' >
 
-                  Categories
+                    Chats</div>
                 </Link>
               </Dropdown.Item>
               <Dropdown.Item key="copy">
                 <Link href='/'>
+                  <div className='w-full ' >
 
                   Browse All
+                  </div>
                 </Link>
               </Dropdown.Item>
               <Dropdown.Item key="edit">
                 <Link href='/sell'>
+                  <div className='w-full ' >
 
                   Sell
+                  </div>
                 </Link>
               </Dropdown.Item>
 
