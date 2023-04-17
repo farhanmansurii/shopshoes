@@ -9,10 +9,10 @@ export default function HomeNavbar() {
   const router = useRouter()
 
   const collapseItems = [
-    { text: 'About', link: '/' },
-    { text: 'Browse', link: '/' },
-    { text: 'Chats', link: '/chats' },
-    { text: 'Sell', link: '/sell' },
+    { text: 'About', link: '' },
+    { text: 'Browse', link: '' },
+    { text: 'Offers', link: 'offers' },
+    { text: 'Sell', link: 'sell' },
   ];
   return (
     <div className=' fixed z-50 w-full'>

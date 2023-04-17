@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { useAuth } from '@clerk/nextjs';
+import { useAuth, useUser } from '@clerk/nextjs';
 import { Button, Input, Loading } from '@nextui-org/react';
 import { type Listing } from '@prisma/client';
 import Head from 'next/head';
@@ -24,7 +24,7 @@ type Messages = {
 }
 export default function Details() {
   const router = useRouter()
-  const user = useAuth()
+  const user = useUser()
   const { register, handleSubmit, formState: { errors }, reset } = useForm<{ message: string }>();
   const sendMessage = api.listings.sendMessage.useMutation();
 
@@ -70,6 +70,7 @@ export default function Details() {
         <div className="w-full lg:w-1/2 px-4 mb-8 lg:mb-0">
           <img src={listing?.image as string} alt={listing?.name} className="w-10/12 lg:w-full mx-auto" />
         </div>
+
         <div className="w-full flex my-auto flex-col gap-2 text-left lg:w-1/2 px-4">
           <h1 className="text-4xl capitalize font-medium mb-2">{listing?.name}</h1>
           <div className="flex items-center">
@@ -96,15 +97,20 @@ export default function Details() {
           {
             user?.isSignedIn &&
             <form
-              className='w-11/12'
-              onSubmit={handleSubmit((formData) => {
-                sendMessage
-                  .mutateAsync({
+                className='w-full'
+                onSubmit={handleSubmit((formData) => {
+                  const response = {
                     message: formData.message,
                     listingId: listing?.id || '',
-                  }).then(() => {
-                    toast.success("Message sent!")
-                    reset()
+                    fromUser: user.user.id,
+                    fromUserName: user?.user?.fullName || user?.user?.firstName || '',
+                    toUser: listing?.userId || ''
+                  }
+                  sendMessage
+                    .mutateAsync(response).then(() => {
+                      console.log()
+                      toast.success(`Message sent !`)
+                      reset()
                   })
               })}
             >
@@ -113,13 +119,12 @@ export default function Details() {
                 {...register('message', { required: true })}
                 clearable
                 css={{
-                  width: 'max-content'
+                  width: '100%'
                 }}
                 contentRightStyling={false}
                 placeholder="Type your message to the seller"
                 contentRight={
                   <button className='bg-blue-500 p-2 mr-2 rounded-full'>
-
                     <svg
                       fill="none"
                       stroke="white"
