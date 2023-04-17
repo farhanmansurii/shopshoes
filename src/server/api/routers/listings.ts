@@ -1,3 +1,4 @@
+import { clerkClient } from "@clerk/nextjs/server";
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
@@ -9,6 +10,21 @@ export const listingsRouter = createTRPCRouter({
     return ctx.prisma.listing.findMany()
   }),
 
+  sendMessage: protectedProcedure
+    .input(z.object({ message: z.string(), listingId: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const fromUser = await clerkClient.users.getUser(ctx.auth.userId);
+
+      const message = await ctx.prisma.message.create({
+        data: {
+          fromUser: ctx.auth.userId,
+          fromUserName: fromUser.username ?? "unknown",
+          listingId: input.listingId,
+          message: input.message,
+        },
+      });
+      return message;
+    }),
   deleteList: publicProcedure.query(({
     ctx
   }) => {

@@ -1,11 +1,14 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { useAuth } from '@clerk/nextjs';
-import { Button, Loading } from '@nextui-org/react';
+import { Button, Input, Loading } from '@nextui-org/react';
 import { type Listing } from '@prisma/client';
 import Head from 'next/head';
 import Link from 'next/link';
-
+import { toast, Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/router'
 import React from 'react'
+import { useForm } from 'react-hook-form';
 import { api } from '~/utils/api'
 type Inputs = {
   id: string
@@ -16,9 +19,14 @@ type Inputs = {
   condition: string
   size?: string
 };
+type Messages = {
+  message: string
+}
 export default function Details() {
   const router = useRouter()
   const user = useAuth()
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<{ message: string }>();
+  const sendMessage = api.listings.sendMessage.useMutation();
 
   const { data: listing, isLoading, } = api.listings.get.useQuery<Inputs>(
     {
@@ -36,6 +44,7 @@ export default function Details() {
   }
 
 
+
   return (<>
     <Head>
       <title>{listing?.name}</title>
@@ -43,6 +52,7 @@ export default function Details() {
       <link rel="icon" href="/favicon.ico" />
     </Head>
     <div className="container mx-auto  pt-[6rem] px-4 py-8">
+      <div><Toaster /></div>
       <div className="container text-sm mx-auto">
         <ul className="flex">
           <li className="mr-2 hover:underline text-gray-500">
@@ -62,11 +72,12 @@ export default function Details() {
         </div>
         <div className="w-full flex my-auto flex-col gap-2 text-left lg:w-1/2 px-4">
           <h1 className="text-4xl capitalize font-medium mb-2">{listing?.name}</h1>
-          <p className="text-gray-500 text-sm capitalize ">{listing?.description}</p>
           <div className="flex items-center">
             <span className="text-lg font-medium mr-2"> ₹ {Number(listing?.price) + 150}</span>
-            <span className="text-gray-500 text-xs">(Shipping + Tax included )</span>
+            <span className="text-gray-500 text-xs">(Shipping included )</span>
           </div>
+          <p className="text-gray-500 text-sm capitalize ">{listing?.description}</p>
+
           <div className="flex items-center mb-4">
             <span className="text-lg font-medium mr-2">{listing?.size}</span>
 
@@ -78,9 +89,54 @@ export default function Details() {
               {listing?.condition}
             </span>
           </div>
-          <Button disabled={!user?.userId} shadow className="bg-black text-white rounded-lg px-6 py-2 font-medium w-full hover:bg-gray-900">
-            {!user?.userId ? "Sign In to Buy" : 'Buy Now'}
+          <Button disabled={!user?.isSignedIn} shadow className="bg-black text-white rounded-lg px-6 py-2 font-medium w-full hover:bg-gray-900">
+            {!user?.isSignedIn ? "Sign In to Buy" : 'Buy Now'}
           </Button>
+
+          {
+            user?.isSignedIn &&
+            <form
+              className='w-11/12'
+              onSubmit={handleSubmit((formData) => {
+                sendMessage
+                  .mutateAsync({
+                    message: formData.message,
+                    listingId: listing?.id || '',
+                  }).then(() => {
+                    toast.success("Message sent!")
+                    reset()
+                  })
+              })}
+            >
+
+              <Input
+                {...register('message', { required: true })}
+                clearable
+                css={{
+                  width: 'max-content'
+                }}
+                contentRightStyling={false}
+                placeholder="Type your message to the seller"
+                contentRight={
+                  <button className='bg-blue-500 p-2 mr-2 rounded-full'>
+
+                    <svg
+                      fill="none"
+                      stroke="white"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                      height="1em"
+                      width="1em"
+                    >
+                      <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+                    </svg>
+                  </button>
+                }
+              />
+            </form>
+          }
           <p className="text-center text-gray-500 text-sm mt-2">100% Authentic</p>
         </div>
       </div>

@@ -8,9 +8,9 @@ generator client {
 }
 
 model Listing {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   name        String
   description String
   price       Float
@@ -19,4 +19,15 @@ model Listing {
   size        String
   condition   String
   isOriginal  Boolean
+  message     Message[]
+}
+
+model Message {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  fromUser     String
+  fromUserName String
+  message      String
+  listingId    String   @db.ObjectId
+  listing      Listing  @relation(fields: [listingId], references: [id])
+  createdAt    DateTime @default(now())
 }

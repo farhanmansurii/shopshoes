@@ -4,6 +4,7 @@ import { SignInButton, useAuth, useUser } from '@clerk/nextjs';
 import { Button, Input, Textarea } from '@nextui-org/react';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast, Toaster } from 'react-hot-toast';
 
 import { api } from '~/utils/api';
 
@@ -26,7 +27,7 @@ const ImagePreview = ({ image }: ImagePreviewProps) => {
 
 
 export default function Sell() {
-  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<Inputs>();
   const [image, setImage] = useState<string>('');
   const [size, setSize] = useState("");
 
@@ -86,12 +87,12 @@ export default function Sell() {
         ...data,
         price, isOriginal: true, size,
         image: image || '',
-      });
-      console.log('Item created successfully:',
-        response
-      );
+      }).then(() => {
+        toast.success('Product Listed!')
+      }).then(() => { reset(), setSize(""), setImage('') });
+
     } catch (err) {
-      console.log('Failed to create item:', err);
+      toast.error('Failed to list product');
     }
   };
 
@@ -105,11 +106,10 @@ export default function Sell() {
     try {
       console.log('trying tod elete', id)
       del.mutateAsync({ id })
+      toast.success('Product Deleted!')
 
-      return true;
     } catch (error) {
-      console.error(error);
-      return false;
+      toast.error('Error Deleting the Product!')
     }
   }
   if (!user.isSignedIn) {
@@ -127,6 +127,7 @@ export default function Sell() {
   }
   return (
     <div className='pt-[6rem] flex items-center flex-col justify-center min-h-screen'>
+      <div><Toaster /></div>
       <div className='text-2xl font-semibold my-3'>Sell Any Product</div>
       <form className='flex flex-col lg:w-7/12 w-10/12 gap-5 mb-10' onSubmit={handleSubmit(onSubmit)}>
         <Input {...register('name', { required: true })} label='Item Name' placeholder='Give the Items Name' />
