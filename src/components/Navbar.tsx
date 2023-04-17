@@ -11,6 +11,7 @@ export default function HomeNavbar() {
   const collapseItems = [
     { text: 'About', link: '/' },
     { text: 'Browse', link: '/' },
+    { text: 'Chats', link: '/chats' },
     { text: 'Sell', link: '/sell' },
   ];
   return (
