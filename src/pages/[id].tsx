@@ -91,7 +91,7 @@ export default function Details() {
             </span>
           </div>
           <Button disabled={!user?.isSignedIn} shadow className="bg-black text-white rounded-lg px-6 py-2 font-medium w-full hover:bg-gray-900">
-            {!user?.isSignedIn ? "Sign In to Buy" : 'Buy Now'}
+            {!user?.isSignedIn && "Sign In to Buy"}
           </Button>
 
           {
